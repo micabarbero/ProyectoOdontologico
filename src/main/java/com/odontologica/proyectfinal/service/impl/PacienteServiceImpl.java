@@ -49,6 +49,7 @@ public class PacienteServiceImpl implements IService<Paciente> {
         pacienteActualizar.setApellido(paciente.getApellido());
         pacienteActualizar.setDni(paciente.getDni());
         pacienteActualizar.setFechaIngreso(paciente.getFechaIngreso());
+
         return this.guardar(pacienteActualizar);
         // estoy parada en el com.odontologica.proyectfinal.service, entonces uso el metodo guardar de acá y le paso el paciente actualizado.
     }

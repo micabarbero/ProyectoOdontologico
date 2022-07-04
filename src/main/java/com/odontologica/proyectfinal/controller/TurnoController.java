@@ -4,12 +4,14 @@ import com.odontologica.proyectfinal.entities.Odontologo;
 import com.odontologica.proyectfinal.entities.Turno;
 import com.odontologica.proyectfinal.service.IService;
 import com.odontologica.proyectfinal.service.serviceExceptions.ServiceExceptions;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +22,28 @@ public class TurnoController {
     @Qualifier("TurnoServiceImpl")
     private IService<Turno> turnoIService;
 
+    public static Logger logger = Logger.getLogger(TurnoController.class);
+
     // REGISTRAR TURNO
     @PostMapping
     public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno){
-        ResponseEntity<Turno> respuesta = null;
-        if (turno.getPaciente().getId() != null && turno.getOdontologo().getId() != null) { // Chequea que existe en el BODY de la request
-        try{
-            respuesta = ResponseEntity.ok(turnoIService.guardar(turno));
-        }
-        catch(Exception s){
-            respuesta = ResponseEntity.badRequest().build(); // Está mal hecha la request
+        ResponseEntity<Turno> respuesta = ResponseEntity.notFound().build();
+            try {
+                if (turno.getPaciente().getId() != null && turno.getOdontologo().getId() != null &&
+                        turno.getDiaTurno().isAfter(LocalDate.now())) {
+                    respuesta = ResponseEntity.ok(turnoIService.guardar(turno));
+                    logger.info("Se creó correcto el turno");
+                } else {
+                    respuesta = ResponseEntity.badRequest().build(); // No paso la comprobación del if
+                    logger.info("No paso el if");
+                }
             }
-        }
+        catch(Exception e){
+            logger.error(e);
+            logger.info("Error en la request");
+            respuesta = ResponseEntity.badRequest().build(); // Si hubo un error en el body
+
+            }
         return respuesta;
     }
 
