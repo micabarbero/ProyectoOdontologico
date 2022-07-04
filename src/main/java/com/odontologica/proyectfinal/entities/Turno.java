@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Getter
@@ -19,18 +20,15 @@ public class Turno {
     private Integer id;
 
     // Join con Paciente
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "paciente_id")
-    //@JsonIgnore
     private Paciente paciente;
 
     // Join con Odontologo
-    //@JsonIgnore
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinColumn(name = "odontologo_id")
-    //@JsonIgnore
     private Odontologo odontologo;
 
-    private LocalDate date;
+    private LocalDate diaTurno;
+    private LocalTime horaTurno;
 }

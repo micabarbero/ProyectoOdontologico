@@ -17,7 +17,7 @@ import java.util.Set;
 public class Paciente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nombre;
@@ -35,22 +35,4 @@ public class Paciente {
     @JsonIgnore
     private Set<Turno> turnos = new HashSet<>();
 
-    // Join con Odontologos
-    //@JsonIgnore
-//    @ManyToOne
-//    @JoinColumn(name="odontologo_id", nullable = true)
-    //private Odontologo odontologo;
-
-
-    @Override
-    public String toString() {
-        return "Paciente{" +
-                "id=" + id +
-                ", nombre='" + nombre + '\'' +
-                ", apellido='" + apellido + '\'' +
-                ", dni='" + dni + '\'' +
-                ", fechaIngreso=" + fechaIngreso +
-                ", domicilio=" + domicilio +
-                '}';
-    }
 }

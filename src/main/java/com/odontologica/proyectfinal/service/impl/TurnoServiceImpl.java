@@ -57,7 +57,7 @@ public class TurnoServiceImpl implements IService<Turno> {
     @Override
     public Turno actualizar(Turno turno) {
        Turno turnoActualizar = turnoRepository.findById(turno.getId()).get();
-       turnoActualizar.setDate(turno.getDate());
+       turnoActualizar.setDiaTurno(turno.getDiaTurno());
        turnoActualizar.setPaciente(turno.getPaciente());
        turnoActualizar.setOdontologo(turno.getOdontologo());
         return this.guardar(turnoActualizar);
