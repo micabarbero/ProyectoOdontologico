@@ -1,4 +1,4 @@
-package com.dh.proyecto.Controller;
+package com.odontologica.proyectfinal.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
