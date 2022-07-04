@@ -1,10 +1,7 @@
 package com.odontologica.proyectfinal.service.impl;
-
-import com.odontologica.proyectfinal.entities.Odontologo;
 import com.odontologica.proyectfinal.entities.Turno;
 import com.odontologica.proyectfinal.repository.OdontologoRepository;
 import com.odontologica.proyectfinal.repository.PacienteRepository;
-import com.odontologica.proyectfinal.service.serviceExceptions.ServiceExceptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.odontologica.proyectfinal.repository.TurnoRepository;
