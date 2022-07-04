@@ -42,6 +42,7 @@ public class TurnoController {
             logger.error(e);
             logger.info("Error en la request");
             respuesta = ResponseEntity.badRequest().build(); // Si hubo un error en el body
+
             }
         return respuesta;
     }
