@@ -1,9 +1,8 @@
 # ProyectoOdontologico
-___
+
 Proyecto final para la materia Backend I, realizado en Java con Spring Boot.
 
 ## SETUP
-___
-hacer un clon
-ingresar a la carpeta
-correr
+1. Hacer un clon
+2. Ingresar a la carpeta
+3. Correr
