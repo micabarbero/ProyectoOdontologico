@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,3 +88,5 @@ public class TurnoController {
 
 
 }
+
+// TODO: 4/7/2022 Actualizar el post en Postman de Turnos (Le agregué la hora).

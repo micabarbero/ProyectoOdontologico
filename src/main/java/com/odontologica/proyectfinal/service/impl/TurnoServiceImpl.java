@@ -57,6 +57,7 @@ public class TurnoServiceImpl implements IService<Turno> {
        turnoActualizar.setDiaTurno(turno.getDiaTurno());
        turnoActualizar.setPaciente(turno.getPaciente());
        turnoActualizar.setOdontologo(turno.getOdontologo());
+       turnoActualizar.setHoraTurno(turno.getHoraTurno());
         return this.guardar(turnoActualizar);
     }
 }
