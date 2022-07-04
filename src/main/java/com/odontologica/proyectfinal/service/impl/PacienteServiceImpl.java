@@ -56,7 +56,7 @@ public class PacienteServiceImpl implements IService<Paciente> {
     public boolean actualizarDomicilio (Paciente paciente, Domicilio domicilio) {
         Paciente pacienteActualizar = this.buscar(paciente.getId()).get();
         pacienteActualizar.setDomicilio(domicilio);
-        this.guardar(pacienteActualizar);
+        this.actualizar(pacienteActualizar);
         return true;
     }
 }
