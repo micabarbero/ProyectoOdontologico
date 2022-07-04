@@ -23,12 +23,12 @@ public class TurnoController {
     // REGISTRAR TURNO
     @PostMapping
     public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno){
-        ResponseEntity<Turno> respuesta;
+        ResponseEntity<Turno> respuesta = null;
         if (turno.getPaciente().getId() != null && turno.getOdontologo().getId() != null) { // Chequea que existe en el BODY de la request
         try{
             respuesta = ResponseEntity.ok(turnoIService.guardar(turno));
         }
-        catch(ServiceExceptions s){
+        catch(Exception s){
             respuesta = ResponseEntity.badRequest().build(); // Está mal hecha la request
             }
         }

@@ -1,5 +1,7 @@
 package com.odontologica.proyectfinal.service.impl;
 
+import com.odontologica.proyectfinal.DTO.PacienteDTO;
+import com.odontologica.proyectfinal.entities.Domicilio;
 import com.odontologica.proyectfinal.entities.Paciente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,5 +51,12 @@ public class PacienteServiceImpl implements IService<Paciente> {
         pacienteActualizar.setFechaIngreso(paciente.getFechaIngreso());
         return this.guardar(pacienteActualizar);
         // estoy parada en el com.odontologica.proyectfinal.service, entonces uso el metodo guardar de acá y le paso el paciente actualizado.
+    }
+
+    public boolean actualizarDomicilio (Paciente paciente, Domicilio domicilio) {
+        Paciente pacienteActualizar = this.buscar(paciente.getId()).get();
+        pacienteActualizar.setDomicilio(domicilio);
+        this.guardar(pacienteActualizar);
+        return true;
     }
 }

@@ -15,7 +15,7 @@ import java.util.Date;
 public class Turno {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     // Join con Paciente
