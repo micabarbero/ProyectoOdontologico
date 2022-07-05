@@ -20,13 +20,13 @@ public class OdontologoController {
 
     // REGISTRAR PACIENTE
     @PostMapping
-    public ResponseEntity<Odontologo> registrarOdontologo(@RequestBody Odontologo odontologo){
+    public ResponseEntity<Odontologo> registrarOdontologo(@RequestBody Odontologo odontologo) throws Exception{
         return ResponseEntity.ok(odontologoIService.guardar(odontologo));
     }
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Odontologo> buscarOdontologo(@PathVariable Integer id){
+    public ResponseEntity<Odontologo> buscarOdontologo(@PathVariable Integer id) throws Exception{
         ResponseEntity<Odontologo> response = ResponseEntity.notFound().build();
         Odontologo odontologo = odontologoIService.buscar(id).get();
         if(odontologo.getId() != null){
@@ -37,13 +37,13 @@ public class OdontologoController {
 
     // LISTAR
     @GetMapping
-    public ResponseEntity<List<Odontologo>> buscarTodos(){
+    public ResponseEntity<List<Odontologo>> buscarTodos() throws Exception{
         return ResponseEntity.ok(odontologoIService.buscarTodos());
     }
 
     // ACTUALIZAR
     @PutMapping
-    public ResponseEntity<Odontologo> actualizarRegistro(@RequestBody Odontologo odontologo){
+    public ResponseEntity<Odontologo> actualizarRegistro(@RequestBody Odontologo odontologo) throws Exception{
         ResponseEntity<Odontologo> response = ResponseEntity.notFound().build();
         if(odontologo.getId() != null && odontologoIService.buscar(odontologo.getId()) != null){
             response = ResponseEntity.ok(odontologoIService.actualizar(odontologo));
@@ -53,7 +53,7 @@ public class OdontologoController {
 
     // ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity eliminar(@PathVariable Integer id){
+    public ResponseEntity eliminar(@PathVariable Integer id) throws Exception{
         ResponseEntity<Odontologo> response = ResponseEntity.notFound().build();
         if(odontologoIService.buscar(id) != null){
             odontologoIService.eliminar(id);

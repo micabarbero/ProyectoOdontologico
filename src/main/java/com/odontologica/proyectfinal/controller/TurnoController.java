@@ -2,6 +2,8 @@ package com.odontologica.proyectfinal.controller;
 
 
 import com.odontologica.proyectfinal.entities.Turno;
+import com.odontologica.proyectfinal.exceptions.BadRequestException;
+import com.odontologica.proyectfinal.exceptions.NotFoundException;
 import com.odontologica.proyectfinal.service.IService;
 
 import org.apache.log4j.Logger;
@@ -27,30 +29,13 @@ public class TurnoController {
 
     // REGISTRAR TURNO
     @PostMapping
-    public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno){
-        ResponseEntity<Turno> respuesta = ResponseEntity.notFound().build();
-            try {
-                if (turno.getPaciente().getId() != null && turno.getOdontologo().getId() != null &&
-                        turno.getDiaTurno().isAfter(LocalDate.now())) {
-                    respuesta = ResponseEntity.ok(turnoIService.guardar(turno));
-                    logger.info("Se creó correcto el turno");
-                } else {
-                    respuesta = ResponseEntity.badRequest().build(); // No paso la comprobación del if
-                    logger.info("No paso el if");
-                }
-            }
-        catch(Exception e){
-            logger.error(e);
-            logger.info("Error en la request");
-            respuesta = ResponseEntity.badRequest().build(); // Si hubo un error en el body
-
-            }
-        return respuesta;
+    public ResponseEntity<Turno> registrarTurno(@RequestBody Turno turno) throws Exception {
+        return ResponseEntity.ok(turnoIService.guardar(turno));
     }
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id){
+    public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id) throws Exception{
         ResponseEntity<Turno> response = ResponseEntity.notFound().build();
         Turno turno = turnoIService.buscar(id).get();
         if(turno.getId() != null){
@@ -61,13 +46,13 @@ public class TurnoController {
 
     // LISTAR
     @GetMapping
-    public ResponseEntity<List<Turno>> buscarTodos(){
+    public ResponseEntity<List<Turno>> buscarTodos() throws Exception{
         return ResponseEntity.ok(turnoIService.buscarTodos());
     }
 
     // ACTUALIZAR
     @PutMapping
-    public ResponseEntity<Turno> actualizarRegistro(@RequestBody Turno turno){
+    public ResponseEntity<Turno> actualizarRegistro(@RequestBody Turno turno) throws Exception{
         ResponseEntity<Turno> response = ResponseEntity.notFound().build();
         if(turno.getId() != null && turnoIService.buscar(turno.getId()) != null){
             response = ResponseEntity.ok(turnoIService.actualizar(turno));
@@ -77,7 +62,7 @@ public class TurnoController {
 
     // ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity eliminar(@PathVariable Integer id){
+    public ResponseEntity eliminar(@PathVariable Integer id) throws Exception{
         ResponseEntity<Turno> response = ResponseEntity.notFound().build();
         if(turnoIService.buscar(id) != null){
             turnoIService.eliminar(id);
