@@ -1,4 +1,6 @@
 package com.odontologica.proyectfinal.service.impl;
+import com.odontologica.proyectfinal.DTO.TurnoDTO;
+import com.odontologica.proyectfinal.entities.Paciente;
 import com.odontologica.proyectfinal.entities.Turno;
 import com.odontologica.proyectfinal.repository.OdontologoRepository;
 import com.odontologica.proyectfinal.repository.PacienteRepository;
@@ -25,7 +27,8 @@ public class TurnoServiceImpl implements IService<Turno> {
     @Override
     public Turno guardar(Turno turno) {
             if (odontologoRepository.findById(turno.getOdontologo().getId()) != null
-                    && pacienteRepository.findById(turno.getOdontologo().getId()) != null) { // Chequea que exista en el REPOSITORY
+                    && pacienteRepository.findById(turno.getOdontologo().getId()) != null) {
+                // Chequea que exista en el REPOSITORY
                 return turnoRepository.save(turno);
             } return null;
     }
@@ -59,4 +62,6 @@ public class TurnoServiceImpl implements IService<Turno> {
        turnoActualizar.setOdontologo(turno.getOdontologo());
         return this.guardar(turnoActualizar);
     }
+
+
 }

@@ -1,7 +1,6 @@
 package com.odontologica.proyectfinal.controller;
 
 import com.odontologica.proyectfinal.entities.Odontologo;
-import com.odontologica.proyectfinal.entities.Paciente;
 import com.odontologica.proyectfinal.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

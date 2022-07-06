@@ -1,16 +1,14 @@
 package com.odontologica.proyectfinal.controller;
 
 
+import com.odontologica.proyectfinal.DTO.TurnoDTO;
 import com.odontologica.proyectfinal.entities.Turno;
 import com.odontologica.proyectfinal.service.IService;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +21,11 @@ public class TurnoController {
     private IService<Turno> turnoIService;
 
     public static Logger logger = Logger.getLogger(TurnoController.class);
+
+
+
+
+
 
     // REGISTRAR TURNO
     @PostMapping
@@ -49,13 +52,19 @@ public class TurnoController {
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id){
-        ResponseEntity<Turno> response = ResponseEntity.notFound().build();
+    public ResponseEntity<TurnoDTO> buscarTurno(@PathVariable Integer id){
+        ResponseEntity<TurnoDTO> response = ResponseEntity.notFound().build();
+        TurnoDTO turnoDTO = new TurnoDTO();
         Turno turno = turnoIService.buscar(id).get();
         if(turno.getId() != null){
-            response = ResponseEntity.ok(turno);
+            turnoDTO.setPacienteFullName(turno.getPaciente().getNombre() + " " + turno.getPaciente().getApellido());
+            turnoDTO.setOdontologoFullName(turno.getOdontologo().getNombre() + " " + turno.getOdontologo().getApellido());
+            turnoDTO.setDiaTurno(turno.getDiaTurno());
+            turnoDTO.setHoraTurno(turno.getHoraTurno());
+            response = ResponseEntity.ok(turnoDTO);
         }
         return response;
+
     }
 
     // LISTAR
@@ -84,6 +93,4 @@ public class TurnoController {
         }
         return response;
     }
-
-
 }

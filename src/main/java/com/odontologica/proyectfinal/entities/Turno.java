@@ -32,3 +32,4 @@ public class Turno {
     private LocalDate diaTurno;
     private LocalTime horaTurno;
 }
+

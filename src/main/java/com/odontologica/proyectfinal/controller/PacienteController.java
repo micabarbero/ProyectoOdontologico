@@ -57,6 +57,7 @@ public class PacienteController {
     @GetMapping
     public ResponseEntity<List<Paciente>> buscarTodos(){
         return ResponseEntity.ok(pacienteIService.buscarTodos());
+
     }
 
     // ACTUALIZAR
@@ -64,7 +65,8 @@ public class PacienteController {
     public ResponseEntity<Paciente> actualizarRegistro(@RequestBody Paciente paciente){
         ResponseEntity<Paciente> response = ResponseEntity.notFound().build();
         if(paciente.getId() != null && pacienteIService.buscar(paciente.getId()) != null){
-        // Este lo busca en el body (Si le estan mandado por postman) && este lo busca en el com.odontologica.proyectfinal.repository
+        // Este lo busca en el body (Si le estan mandado por postman) && este lo busca
+            // en el com.odontologica.proyectfinal.repository
             response = ResponseEntity.ok(pacienteIService.actualizar(paciente));
         }
         return response;
