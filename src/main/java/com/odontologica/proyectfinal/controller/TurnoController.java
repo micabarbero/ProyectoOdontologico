@@ -73,5 +73,3 @@ public class TurnoController {
 
 
 }
-
-// TODO: 4/7/2022 Actualizar el post en Postman de Turnos (Le agregué la hora).

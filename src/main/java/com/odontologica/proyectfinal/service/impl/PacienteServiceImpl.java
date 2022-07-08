@@ -3,11 +3,14 @@ package com.odontologica.proyectfinal.service.impl;
 import com.odontologica.proyectfinal.DTO.PacienteDTO;
 import com.odontologica.proyectfinal.entities.Domicilio;
 import com.odontologica.proyectfinal.entities.Paciente;
+import com.odontologica.proyectfinal.exceptions.BadRequestException;
+import com.odontologica.proyectfinal.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.odontologica.proyectfinal.repository.PacienteRepository;
 import com.odontologica.proyectfinal.service.IService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,9 +21,14 @@ public class PacienteServiceImpl implements IService<Paciente> {
     private PacienteRepository pacienteRepository;
 
     @Override
-    public Paciente guardar(Paciente paciente) {
+    public Paciente guardar(Paciente paciente) throws BadRequestException, NotFoundException {
+        if(paciente.getId() == null){
+            throw new NotFoundException("Paciente no existe");
+        } else
         return pacienteRepository.save(paciente);
     }
+
+
 
     @Override
     public Optional<Paciente> buscar(Integer id) {
@@ -43,7 +51,7 @@ public class PacienteServiceImpl implements IService<Paciente> {
         return resultado;
     }
 
-    public Paciente actualizar(Paciente paciente){
+    public Paciente actualizar(Paciente paciente) throws Exception{
         Paciente pacienteActualizar = pacienteRepository.findById(paciente.getId()).get(); // Acá tengo al paciente A actualizar
         pacienteActualizar.setNombre(paciente.getNombre());
         pacienteActualizar.setApellido(paciente.getApellido());
@@ -54,7 +62,7 @@ public class PacienteServiceImpl implements IService<Paciente> {
         // estoy parada en el com.odontologica.proyectfinal.service, entonces uso el metodo guardar de acá y le paso el paciente actualizado.
     }
 
-    public boolean actualizarDomicilio (Paciente paciente, Domicilio domicilio) {
+    public boolean actualizarDomicilio (Paciente paciente, Domicilio domicilio) throws Exception{
         Paciente pacienteActualizar = this.buscar(paciente.getId()).get();
         pacienteActualizar.setDomicilio(domicilio);
         this.actualizar(pacienteActualizar);
