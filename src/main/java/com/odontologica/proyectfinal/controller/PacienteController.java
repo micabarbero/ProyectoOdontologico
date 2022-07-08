@@ -19,7 +19,7 @@ import java.util.Optional;
 public class PacienteController {
 
     @Autowired
-    @Qualifier("PacienteServiceImpl") // Para que sepa que Impl usar en el Service
+    @Qualifier("PacienteServiceImpl")
     private IService<Paciente> pacienteIService;
 
     public static Logger logger = Logger.getLogger(PacienteController.class);
@@ -68,22 +68,6 @@ public class PacienteController {
             response = ResponseEntity.ok(pacienteIService.actualizar(paciente));
         }
         return response;
-    }
-
-    // ACTUALIZAR DOMICILIO
-    @PatchMapping("{id}")
-    public ResponseEntity actualizarDomicilio(@PathVariable Integer id, @RequestBody Domicilio domicilio) throws Exception {
-        //Buscar si existe el usuario por el ID y si existe entonces pasar el nuevo domicilio al service.
-        ResponseEntity resultado = null;
-        Optional<Paciente> pacienteBuscado = pacienteIService.buscar(id);
-        if (!pacienteBuscado.isEmpty()) {
-            Boolean operacionExitosa = ((PacienteServiceImpl)pacienteIService).actualizarDomicilio(pacienteBuscado.get(),domicilio);
-        if (operacionExitosa) {
-            resultado = ResponseEntity.ok("Domicilio actualizado");
-        }
-        }
-        return resultado;
-
     }
 
 

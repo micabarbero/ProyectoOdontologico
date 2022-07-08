@@ -46,33 +46,49 @@ public class TurnoServiceImpl implements IService<Turno> {
     }
 
     @Override
-    public Optional<Turno> buscar(Integer id) {
+    public Optional<Turno> buscar(Integer id) throws NotFoundException{
+    Turno turno = turnoRepository.findById(id).get();
+    if(turno.getId() == null){
+        throw new NotFoundException("No existe el paciente o el odontólogo");
+    }
         return turnoRepository.findById(id);
     }
 
+
     @Override
-    public List<Turno> buscarTodos() {
-        return turnoRepository.findAll();
+    public List<Turno> buscarTodos() throws NotFoundException{
+        List <Turno> listaTurnos = turnoRepository.findAll();
+        if (listaTurnos.size() <= 0){
+            throw new NotFoundException("No hay turnos cargados en este momento");
+        }
+        return listaTurnos;
     }
 
     @Override
-    public boolean eliminar(Integer id) {
+    public boolean eliminar(Integer id) throws NotFoundException{
         boolean resultado = false;
         Optional<Turno> encontrado = turnoRepository.findById(id);
-        if (!encontrado.isEmpty()) {
+        if (encontrado.isPresent()) {
             turnoRepository.delete(encontrado.get());
             resultado = true;
+        } else {
+            throw new NotFoundException("No existe un turno asociado con ese ID");
         }
         return resultado;
     }
 
     @Override
-    public Turno actualizar(Turno turno) throws Exception {
-        Turno turnoActualizar = turnoRepository.findById(turno.getId()).get();
-        turnoActualizar.setDiaTurno(turno.getDiaTurno());
-        turnoActualizar.setPaciente(turno.getPaciente());
-        turnoActualizar.setOdontologo(turno.getOdontologo());
-        turnoActualizar.setHoraTurno(turno.getHoraTurno());
-        return this.guardar(turnoActualizar);
+    public Turno actualizar(Turno turno) throws BadRequestException, NotFoundException {
+        Optional<Turno> turnoActualizar = turnoRepository.findById(turno.getId());
+
+        if (turnoActualizar.isPresent()){
+            turnoActualizar.get().setDiaTurno(turno.getDiaTurno());
+            turnoActualizar.get().setPaciente(turno.getPaciente());
+            turnoActualizar.get().setOdontologo(turno.getOdontologo());
+            turnoActualizar.get().setHoraTurno(turno.getHoraTurno());
+            return this.guardar(turnoActualizar.get());
+        } else {
+            throw new NotFoundException("No existe el turno a actualizar");
+        }
     }
 }

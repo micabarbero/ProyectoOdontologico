@@ -20,7 +20,7 @@ public class Odontologo {
 
     private String nombre;
     private String apellido;
-    private Integer matricula;
+    private String matricula;
 
 //    @OneToMany(mappedBy = "odontologo", fetch = FetchType.LAZY)
 //    @JsonIgnore

@@ -36,12 +36,13 @@ public class TurnoController {
     // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id) throws Exception{
-        ResponseEntity<Turno> response = ResponseEntity.notFound().build();
-        Turno turno = turnoIService.buscar(id).get();
-        if(turno.getId() != null){
-            response = ResponseEntity.ok(turno);
-        }
-        return response;
+//        ResponseEntity<Turno> response = ResponseEntity.notFound().build();
+//        Turno turno = turnoIService.buscar(id).get();
+//        if(turno.getId() != null){
+//            response = ResponseEntity.ok(turno);
+//        }
+//        return response;
+        return ResponseEntity.ok(turnoIService.buscar(id).get());
     }
 
     // LISTAR
