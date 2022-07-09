@@ -98,8 +98,4 @@ public class PacienteServiceImpl implements IService<Paciente> {
             throw new BadRequestException("Error en los datos al actualizar al paciente.");
         }
     }
-//
-//    public boolean actualizarDomicilio (Paciente paciente,Domicilio domicilio) throws Exception{
-//        domicilioService.actualizar(domicilio.getCalle().)
-//    }
 }

@@ -25,7 +25,6 @@ public class TurnoController {
     @Qualifier("TurnoServiceImpl")
     private IService<Turno> turnoIService;
 
-    public static Logger logger = Logger.getLogger(TurnoController.class);
 
     // REGISTRAR TURNO
     @PostMapping
@@ -36,13 +35,12 @@ public class TurnoController {
     // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id) throws Exception{
-//        ResponseEntity<Turno> response = ResponseEntity.notFound().build();
-//        Turno turno = turnoIService.buscar(id).get();
-//        if(turno.getId() != null){
-//            response = ResponseEntity.ok(turno);
-//        }
-//        return response;
-        return ResponseEntity.ok(turnoIService.buscar(id).get());
+        if(turnoIService.buscar(id).isPresent()){
+            return ResponseEntity.ok(turnoIService.buscar(id).get());
+        } else {
+            throw new NotFoundException("No existe un turno con este ID");
+        }
+
     }
 
     // LISTAR
@@ -55,7 +53,7 @@ public class TurnoController {
     @PutMapping
     public ResponseEntity<Turno> actualizarRegistro(@RequestBody Turno turno) throws Exception{
         ResponseEntity<Turno> response = ResponseEntity.notFound().build();
-        if(turno.getId() != null && turnoIService.buscar(turno.getId()) != null){
+        if(turno.getId() != null && turnoIService.buscar(turno.getId()).isPresent()){
             response = ResponseEntity.ok(turnoIService.actualizar(turno));
         }
         return response;
@@ -64,13 +62,7 @@ public class TurnoController {
     // ELIMINAR
     @DeleteMapping("/{id}")
     public ResponseEntity eliminar(@PathVariable Integer id) throws Exception{
-        ResponseEntity<Turno> response = ResponseEntity.notFound().build();
-        if(turnoIService.buscar(id) != null){
-            turnoIService.eliminar(id);
-            response = ResponseEntity.noContent().build();
-        }
-        return response;
+        return ResponseEntity.ok(turnoIService.eliminar(id));
     }
-
 
 }

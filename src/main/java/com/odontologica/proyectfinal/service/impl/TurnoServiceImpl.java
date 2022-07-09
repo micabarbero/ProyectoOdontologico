@@ -47,9 +47,9 @@ public class TurnoServiceImpl implements IService<Turno> {
 
     @Override
     public Optional<Turno> buscar(Integer id) throws NotFoundException{
-    Turno turno = turnoRepository.findById(id).get();
-    if(turno.getId() == null){
-        throw new NotFoundException("No existe el paciente o el odontólogo");
+    Optional<Turno> turno = turnoRepository.findById(id);
+    if(turno.isEmpty()){
+        throw new NotFoundException("No existe un turno con ese ID");
     }
         return turnoRepository.findById(id);
     }

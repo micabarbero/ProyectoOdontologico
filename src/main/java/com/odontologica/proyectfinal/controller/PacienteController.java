@@ -2,7 +2,10 @@ package com.odontologica.proyectfinal.controller;
 
 import com.odontologica.proyectfinal.DTO.PacienteDTO;
 import com.odontologica.proyectfinal.entities.Domicilio;
+import com.odontologica.proyectfinal.entities.Odontologo;
 import com.odontologica.proyectfinal.entities.Paciente;
+import com.odontologica.proyectfinal.exceptions.BadRequestException;
+import com.odontologica.proyectfinal.exceptions.NotFoundException;
 import com.odontologica.proyectfinal.service.IService;
 import com.odontologica.proyectfinal.service.impl.PacienteServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,45 +29,33 @@ public class PacienteController {
 
     // REGISTRAR PACIENTE
     @PostMapping
-    public ResponseEntity<Paciente> registrarPaciente(@RequestBody Paciente paciente) throws Exception{
+    public ResponseEntity<Paciente> registrarPaciente(@RequestBody Paciente paciente) throws Exception {
         return ResponseEntity.ok(pacienteIService.guardar(paciente));
     }
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
-    public ResponseEntity buscarPaciente(@PathVariable Integer id) throws Exception{
-        ResponseEntity response = ResponseEntity.notFound().build();
-        PacienteDTO pacienteFront = new PacienteDTO();
-        try {
-            Paciente pacienteBuscado = pacienteIService.buscar(id).get();
-            if (pacienteBuscado.getId() != null) {
-                pacienteFront.setNombreCompleto(pacienteBuscado.getNombre() + " " + pacienteBuscado.getApellido());
-                pacienteFront.setDni(pacienteBuscado.getDni());
-                pacienteFront.setId(pacienteBuscado.getId());
-                response = ResponseEntity.ok(pacienteFront);
-            }
-            }
-        catch (Exception e) {
-            logger.info(e);
-            response = ResponseEntity.badRequest().build();
-
-            }
-
+    public ResponseEntity<Paciente> buscarPaciente(@PathVariable Integer id) throws Exception {
+        ResponseEntity<Paciente> response = ResponseEntity.notFound().build();
+        Optional<Paciente> paciente = pacienteIService.buscar(id);
+        if (paciente.isPresent()) {
+            response = ResponseEntity.ok(paciente.get());
+        }
         return response;
     }
 
+
     // LISTAR
     @GetMapping
-    public ResponseEntity<List<Paciente>> buscarTodos() throws Exception{
+    public ResponseEntity<List<Paciente>> buscarTodos() throws Exception {
         return ResponseEntity.ok(pacienteIService.buscarTodos());
     }
 
     // ACTUALIZAR
     @PutMapping
-    public ResponseEntity<Paciente> actualizarRegistro(@RequestBody Paciente paciente) throws Exception{
+    public ResponseEntity<Paciente> actualizarRegistro(@RequestBody Paciente paciente) throws Exception {
         ResponseEntity<Paciente> response = ResponseEntity.notFound().build();
-        if(paciente.getId() != null && pacienteIService.buscar(paciente.getId()) != null){
-        // Este lo busca en el body (Si le estan mandado por postman) && este lo busca en el com.odontologica.proyectfinal.repository
+        if (paciente.getId() != null && pacienteIService.buscar(paciente.getId()).isPresent()) {
             response = ResponseEntity.ok(pacienteIService.actualizar(paciente));
         }
         return response;
@@ -73,14 +64,7 @@ public class PacienteController {
 
     // ELIMINAR
     @DeleteMapping("/{id}")
-    public ResponseEntity eliminar(@PathVariable Integer id) throws Exception{
-        ResponseEntity<Paciente> response = ResponseEntity.notFound().build();
-        if(pacienteIService.buscar(id) != null){
-            pacienteIService.eliminar(id);
-            response = ResponseEntity.noContent().build();
-        }
-        return response;
+    public ResponseEntity eliminar(@PathVariable Integer id) throws Exception {
+        return ResponseEntity.ok(pacienteIService.eliminar(id));
     }
-
-
 }

@@ -22,10 +22,6 @@ public class Odontologo {
     private String apellido;
     private String matricula;
 
-//    @OneToMany(mappedBy = "odontologo", fetch = FetchType.LAZY)
-//    @JsonIgnore
-//    private Set<Paciente> pacientes = new HashSet<>();
-
     // Join con Turnos
     @OneToMany(mappedBy = "odontologo", fetch = FetchType.LAZY)
     @JsonIgnore
