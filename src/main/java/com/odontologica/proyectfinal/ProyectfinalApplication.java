@@ -14,19 +14,4 @@ public class ProyectfinalApplication {
 		SpringApplication.run(ProyectfinalApplication.class, args);
 	}
 
-	// Para correr el front en Visual y el back acá
-//	@Configuration
-//	@EnableWebMvc
-//	public class WebConfig implements WebMvcConfigurer {
-//
-//		@Override
-//		public void addCorsMappings(CorsRegistry registry) {
-//
-//			registry.addMapping("/**")
-//					.allowedOriginPatterns("*")
-//					.allowCredentials(true)
-//					.allowedMethods("GET", "POST", "PUT", "DELETE")
-//					.maxAge(3600);
-//		}
-//	}
 }

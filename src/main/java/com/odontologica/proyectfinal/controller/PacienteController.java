@@ -30,18 +30,14 @@ public class PacienteController {
     // REGISTRAR PACIENTE
     @PostMapping
     public ResponseEntity<Paciente> registrarPaciente(@RequestBody Paciente paciente) throws Exception {
+        logger.info("Se registró correctamente un paciente");
         return ResponseEntity.ok(pacienteIService.guardar(paciente));
     }
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Paciente> buscarPaciente(@PathVariable Integer id) throws Exception {
-        ResponseEntity<Paciente> response = ResponseEntity.notFound().build();
-        Optional<Paciente> paciente = pacienteIService.buscar(id);
-        if (paciente.isPresent()) {
-            response = ResponseEntity.ok(paciente.get());
-        }
-        return response;
+        return ResponseEntity.ok(pacienteIService.buscar(id).get());
     }
 
 

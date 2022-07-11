@@ -1,6 +1,7 @@
 package com.odontologica.proyectfinal.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,4 +27,5 @@ public class Odontologo {
     @OneToMany(mappedBy = "odontologo", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<Turno> turnos = new HashSet<>();
+
 }

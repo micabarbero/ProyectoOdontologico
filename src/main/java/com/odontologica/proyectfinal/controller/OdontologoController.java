@@ -30,11 +30,7 @@ public class OdontologoController {
     // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Odontologo> buscarOdontologo(@PathVariable Integer id) throws Exception {
-        if(odontologoIService.buscar(id).isPresent()){
-            return ResponseEntity.ok(odontologoIService.buscar(id).get());}
-        else {
-            throw new NotFoundException("No existe un odontólogo con ese ID");
-        }
+        return ResponseEntity.ok(odontologoIService.buscar(id).get());
     }
 
     // LISTAR

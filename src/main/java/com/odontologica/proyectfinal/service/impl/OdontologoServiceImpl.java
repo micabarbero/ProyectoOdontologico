@@ -37,8 +37,9 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
 
     @Override
     public Optional<Odontologo> buscar(Integer id) throws NotFoundException {
-        if (id == null){
-            throw new NotFoundException("No existe un odontólgoo con ese Id");
+        Optional <Odontologo> odontologo = odontologoRepository.findById(id);
+        if (odontologo.isEmpty()){
+            throw new NotFoundException("El odontólogo con ID " + id + " que estás buscando no existe");
         }
         return odontologoRepository.findById(id);
     }
@@ -59,7 +60,7 @@ public class OdontologoServiceImpl implements IService<Odontologo> {
         Optional<Odontologo> encontrado = odontologoRepository.findById(id);
         if(encontrado.isEmpty()){
             if(odontologoRepository.findById(id).isEmpty()){
-                throw new BadRequestException("No existe un odontólgoo con ese ID");
+                throw new BadRequestException("No existe un odontólgo con ese ID");
             }}
             else {
                 odontologoRepository.deleteById(id);

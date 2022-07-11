@@ -35,12 +35,7 @@ public class TurnoController {
     // BUSCAR POR ID
     @GetMapping("/{id}")
     public ResponseEntity<Turno> buscarTurno(@PathVariable Integer id) throws Exception{
-        if(turnoIService.buscar(id).isPresent()){
-            return ResponseEntity.ok(turnoIService.buscar(id).get());
-        } else {
-            throw new NotFoundException("No existe un turno con este ID");
-        }
-
+        return ResponseEntity.ok(turnoIService.buscar(id).get());
     }
 
     // LISTAR

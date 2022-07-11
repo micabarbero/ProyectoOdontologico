@@ -31,25 +31,22 @@ public class TurnoServiceImpl implements IService<Turno> {
 
     @Override
     public Turno guardar(Turno turno) throws BadRequestException, NotFoundException {
-        // Si el body de la request está bien
-        if (turno.getPaciente().getId() != null && turno.getOdontologo().getId() != null &&
-                turno.getDiaTurno().isAfter(LocalDate.now())) {
-            // No está en el repository
-            if (odontologoService.buscar(turno.getOdontologo().getId()).isEmpty() ||
-                    pacienteService.buscar(turno.getPaciente().getId()).isEmpty()) {
-                throw new NotFoundException("Tu paciente u odontólogo no existe");
-            }
+        if(turno.getPaciente().getId() == null && turno.getOdontologo().getId() == null &&
+                turno.getDiaTurno().isAfter(LocalDate.now())) throw new BadRequestException("Error en los datos ingresados");
+        if(odontologoService.buscar(turno.getOdontologo().getId()).isEmpty()) throw new NotFoundException("El odontólogo no existe");
+        if(pacienteService.buscar(turno.getPaciente().getId()).isEmpty()) throw new NotFoundException("El paciente no existe");
+        if(turnoDisponible(turno)){
+            return turnoRepository.save(turno);
         } else {
-            throw new BadRequestException("Error en los datos ingresados");
+            throw new NotFoundException("No se puede reservar ese turno");
         }
-        return turnoRepository.save(turno);
     }
 
     @Override
     public Optional<Turno> buscar(Integer id) throws NotFoundException{
     Optional<Turno> turno = turnoRepository.findById(id);
     if(turno.isEmpty()){
-        throw new NotFoundException("No existe un turno con ese ID");
+        throw new NotFoundException("El turno que estás buscando no existe");
     }
         return turnoRepository.findById(id);
     }
@@ -91,4 +88,16 @@ public class TurnoServiceImpl implements IService<Turno> {
             throw new NotFoundException("No existe el turno a actualizar");
         }
     }
+
+    public boolean turnoDisponible(Turno turno) throws NotFoundException{
+        boolean resultado = true;
+        Optional<Odontologo> odontologo = odontologoService.buscar(turno.getOdontologo().getId());
+        for(Turno turnoIterado:odontologo.get().getTurnos()){
+            if (turno.getDiaTurno().equals(turnoIterado.getDiaTurno()) && turno.getHoraTurno().equals(turnoIterado.getHoraTurno())) {
+            resultado = false;
+            break;
+            }
+        } return resultado;
+    }
+
 }

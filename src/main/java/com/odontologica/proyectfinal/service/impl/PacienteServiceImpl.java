@@ -46,8 +46,9 @@ public class PacienteServiceImpl implements IService<Paciente> {
 
     @Override
     public Optional<Paciente> buscar(Integer id) throws NotFoundException{
-        if (id == null){
-            throw new NotFoundException("No existe un paciente con ese ID");
+        Optional<Paciente> paciente = pacienteRepository.findById(id);
+        if (paciente.isEmpty()){
+            throw new NotFoundException("El paciente con ID " + id + " que estás buscando no existe");
         }
         return pacienteRepository.findById(id);
     }
